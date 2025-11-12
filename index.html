@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Cumpleaños</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background: #000; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.page { display: none; text-align: center; padding: 20px; }
+.page.active { display: block; animation: fadeIn 0.8s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+.card { background: #1a1a1a; border-radius: 30px; padding: 50px 60px; max-width: 450px; margin: 0 auto; position: relative; box-shadow: 0 0 100px 40px rgba(255, 255, 255, 0.3), 0 0 60px 20px rgba(255, 255, 255, 0.2); }
+.card::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120%; height: 120%; background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%); z-index: -1; animation: glow 3s ease-in-out infinite; }
+@keyframes glow { 0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
+.card-image { width: 150px; height: 150px; object-fit: cover; margin-bottom: 25px; border-radius: 20px; background: white; padding: 10px; animation: bounce 2s infinite; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+h1 { color: #fff; font-size: 2.2em; margin-bottom: 25px; font-weight: bold; }
+.white-title { color: #fff; font-size: 3em; margin-bottom: 30px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+.btn { background: #fff; color: #000; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.1em; cursor: pointer; margin-top: 10px; transition: transform 0.2s; font-weight: 600; }
+.btn:hover { transform: scale(1.1); }
+.btn-white { background: white; color: black; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.2em; cursor: pointer; margin-top: 30px; font-weight: bold; transition: transform 0.2s; }
+.btn-white:hover { transform: scale(1.1); }
+.btn-back { position: fixed; top: 20px; left: 20px; background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid white; padding: 10px 25px; border-radius: 50px; font-size: 1em; cursor: pointer; transition: all 0.2s; font-weight: 600; z-index: 1000; }
+.btn-back:hover { background: white; color: black; transform: scale(1.05); }
+.btn-exit { background: #ff4444; color: white; border: none; padding: 12px 35px; border-radius: 50px; font-size: 1.1em; cursor: pointer; margin-top: 30px; transition: transform 0.2s; font-weight: 600; }
+.btn-exit:hover { transform: scale(1.1); background: #ff0000; }.volume-control { position: fixed; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.2); border: 2px solid white; border-radius: 50px; padding: 10px 20px; display: none; align-items: center; gap: 10px; z-index: 1000; }
+.volume-control.show { display: flex; }
+.volume-control button { background: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 1.2em; }
+.volume-bar { width: 100px; height: 5px; background: rgba(255, 255, 255, 0.3); border-radius: 5px; cursor: pointer; }
+.volume-fill { height: 100%; background: white; border-radius: 5px; width: 70%; }
+.envelope-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+.envelope-image { width: 300px; margin-bottom: 30px; animation: float 3s infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.envelope-opening { animation: envelopeOpen 1.2s ease-out forwards; }
+@keyframes envelopeOpen { 0% { opacity: 1; } 100% { opacity: 0; transform: scale(0.5) rotateX(180deg); } }
+.letter-page { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; }
+.letter-image { max-width: 90%; max-height: 80vh; border-radius: 10px; animation: letterSlideUp 1.5s ease-out; }
+@keyframes letterSlideUp { 0% { opacity: 0; transform: translateY(100vh); } 100% { opacity: 1; transform: translateY(0); } }
+</style>
+<script src="script.js"></script>
+</head>
+<body>
+<audio id="musica" loop><source src="https://www.dropbox.com/scl/fi/dnezpt2wvvqd4zrf6v19j/And-I-Love-Her-mp3cut.net.mp3?rlkey=yl0ryngpf4xbt2vckjc7o95kd&st=2pyjb445&dl=1" type="audio/mpeg"></audio>
+<div class="volume-control" id="volumeControl">
+<button onclick="changeVolume(-0.1)">🔉</button>
+<div class="volume-bar" onclick="setVolume(event)">
+<div class="volume-fill" id="volumeFill"></div>
+</div>
+<button onclick="changeVolume(0.1)">🔊</button>
+</div><div id="page1" class="page active">
+<div class="card">
+<img src="https://i.imgur.com/IPreVbO.jpeg" class="card-image">
+<h1>¡Feliz Cumpleaños!</h1>
+<button class="btn" onclick="goToPage(2)">Siguiente!!</button>
+</div>
+</div>
+<div id="page2" class="page">
+<button class="btn-back" onclick="goToPage(1)">← Volver</button>
+<div class="envelope-page">
+<img src="https://i.imgur.com/BKvlUsK.png" class="envelope-image" id="envelope">
+<h1 class="white-title">Abrila!!!</h1>
+<button class="btn-white" onclick="openEnvelope()">Abrir</button>
+</div>
+</div>
+<div id="page3" class="page">
+<button class="btn-back" onclick="goToPage(2)">← Volver</button>
+<div class="letter-page">
+<img src="https://i.imgur.com/JkgLYlo.png" class="letter-image">
+<button class="btn-exit" onclick="exitPage()">Salir</button>
+</div>
+</div>
